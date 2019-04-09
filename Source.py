@@ -4,6 +4,10 @@
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize, sent_tokenize
+from string import punctuation
+from nltk.probability import FreqDist
+from heapq import nlargest
+from collections import defaultdict
 
 # The article is from https://www.livescience.com/63817-atlas-robot-parkour.html
 text_str = '''
@@ -22,6 +26,16 @@ The prospect of a humanoid robot that can leap, backflip and bound after you ove
 What's next for the nimble Atlas? Only its designers know for sure.
 '''
 
+#file_object  = open(“filename”, “mode”)
+
+def read_file(path):
+    """ Read the file at designated path and throw exception if unable to do so """
+    try:
+        with open(path, 'r') as file:
+            return file.read()
+
+    except IOError as e:
+        print("Fatal Error: File ({}) could not be locaeted or is not readable.".format(path))
 
 def _create_frequency_table(text_string) -> dict:
     """
